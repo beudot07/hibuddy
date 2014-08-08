@@ -14,8 +14,8 @@ videoconferences with your friends.
 
 ### Requirements
 
-  - Firefox 25 (or later)
-  - `node 0.8.x`
+  - Firefox 25 (or later) not tested but supposed to work with Opera or Chrome since 2012
+  - `node 0.8.x` note that this version needs a trick for installation on Ubuntu 2012 LTS
   - `npm 1.1.x`
 
 ### Install the project
@@ -43,19 +43,33 @@ Here is a sample configuration for nginx:
         proxy_buffering off;
 
         location / {
-               proxy_pass http://127.0.0.1:6424;
+               proxy_pass http://127.0.0.1:7665;
         }
     }
-
+    
 Enable your site:
 
     # ln -s /etc/nginx/sites-available/hibuddy.example.com /etc/nginx/sites-enabled/hibuddy.example.com
-    # /etc/init.d/nginx reload
+    # /etc/init.d/nginx reload  
+    
+Here is a sample configuration for apache2:
+
+VirtualHost *:80>
+        ServerName hibuddy.example.com
+
+        ProxyPass / http://localhost:7665/
+        ProxyPassReverse / http://localhost:7665/
+        ProxyPreserveHost On
+</VirtualHost>
+
+Enable your site :
+    # a2ensite hibuddy.example.com
+    # service apache2 reload
 
 ### Start the server
 
     $ cd hibuddy
-    $ npm start # starts the server on port 6424
+    $ npm start # starts the server on port 7665
 
 Then open a browser to http://hibuddy.example.com (where `hibuddy.example.com` is your domain).
 
